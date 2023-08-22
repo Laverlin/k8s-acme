@@ -5,4 +5,5 @@ RUN curl -o /kubectl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.i
 RUN chmod +x /kubectl && mv /kubectl /usr/local/bin/kubectl
 
 ENTRYPOINT ["/entry.sh"]
+
 CMD ["--help"]
