@@ -34,11 +34,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - uses: paulhatch/semantic-version@v5.1.0
+        id: semver
         with:
           # The prefix to use to identify tags
           tag_prefix: "v"
           # A string to determine the format of the version output
-          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          # version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          version_format: "${major}.${minor}.${patch}"
 
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: true
@@ -52,10 +54,10 @@ jobs:
         
       - name: Use the version
         run: |
-            echo ${{ steps.version.outputs.version }}
+            echo ${{ steps.semver.outputs.version }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ilaverlin/k8s-acme:${{ steps.version.outputs.version }}
+          tags: ilaverlin/k8s-acme:${{ steps.semver.outputs.version }}
